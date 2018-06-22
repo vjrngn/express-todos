@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+html(lang="en")
+  head
+    meta(charset="UTF-8")
+    meta(name="viewport", content="width=device-width, initial-scale=1.0")
+    meta(http-equiv="X-UA-Compatible", content="ie=edge")
+    title Document
+    link(rel="stylesheet", href="/styles/main.css")
+    link(rel="stylesheet" href="/styles/bootstrap.min.css")
+
+  body
+    div(class="container")
+      form(action="/todos", method="POST")
+        input(type="text" name="title" class="form-control")
+        button(type="submit" class="btn btn-success btn-sm") Add Todo
+      
+      ul(class="list-group")
+        each todo in todos
+          span(class="flex")
+            form(action="/todos/" + todo.id, method="POST")
+              input(name="_method", type="hidden", value="PUT")
+              span(class="todo-item")
+                li(class="list-group-item=")= todo.title
+                  input(type="checkbox", name="todo", checked=todo.completed)
+                  button(type="submit" class="btn btn-primary btn-sm") Update
+            
+            form(action="/todos/" + todo.id method="POST")
+              input(name="_method", type="hidden", value="DELETE")
+              button(type="submit" class="btn btn-danger btn-sm") Delete

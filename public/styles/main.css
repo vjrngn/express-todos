@@ -1,0 +1,11 @@
+.todo-item {
+  display: flex;
+}
+
+.todo-item > li {
+  margin-right: 10px;
+}
+
+.flex {
+  display: flex;
+}
