@@ -21,7 +21,7 @@ html(lang="en")
               input(name="_method", type="hidden", value="PUT")
               span(class="todo-item")
                 li(class="list-group-item=")= todo.title
-                  input(type="checkbox", name="todo", checked=todo.completed)
+                  input(type="checkbox", name="completed", checked=todo.completed)
                   button(type="submit" class="btn btn-primary btn-sm") Update
             
             form(action="/todos/" + todo.id method="POST")

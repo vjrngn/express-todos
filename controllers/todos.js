@@ -1,48 +1,48 @@
-let express = require('express');
+let express = require("express");
 let router = express.Router();
-let todos = require('../data/todos');
+let todos = require("../data/todos");
+let Todo = require("../models/Todo");
 
-router.get("/", function (req, res) {
-  res.render("todos", {
-    todos: todos,
+router.get("/", function(req, res) {
+  Todo.find(function(err, todos) {
+    // node style callback
+    res.render("todos", {
+      todos: todos,
+    });
   });
 });
 
-router.post("/", function (req, res) {
-  let todo = {
-    id: Math.floor(Math.random() * 100),
-    title: req.body.title,
-    completed: false,
-  };
-
-  todos.push(todo);
-
-  res.redirect("/todos");
+router.post("/", function(req, res) {
+  Todo.create(
+    {
+      title: req.body.title,
+      completed: false,
+    },
+    function(err, todo) {
+      res.redirect("/todos");
+    }
+  );
 });
 
-router.put("/:id", function (req, res) {
+router.put("/:id", function(req, res) {
   let id = req.params.id;
 
-  todos.forEach(function (todo) {
-    if (todo.id == id) {
-      todo.completed = req.body.hasOwnProperty("todo");
-    }
+  Todo.findById(id, function(err, todo) {
+    todo.set({ completed: req.body.completed === "on" });
+    todo.save(function(err, updatedTodo) {
+      res.redirect("/todos");
+    });
   });
-
-  return res.redirect("/todos");
 });
 
-router.delete("/:id", function (req, res) {
+router.delete("/:id", function(req, res) {
   let id = req.params.id;
-  todos = todos.filter(function (todo) {
-    if (todo.id == req.params.id) {
-      return false;
-    } else {
-      return true;
-    }
-  });
 
-  res.redirect("/todos");
+  Todo.findById(id, function(err, todo) {
+    todo.remove(function(err) {
+      res.redirect("/todos");
+    });
+  });
 });
 
 module.exports = router;

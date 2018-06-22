@@ -2,6 +2,9 @@ let express = require("express");
 let path = require("path");
 let methodOverride = require("method-override");
 let todosController = require("./controllers/todos");
+let mongoose = require("mongoose");
+
+mongoose.connect("mongodb://localhost:27017/todos_db");
 
 let app = express();
 
