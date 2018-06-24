@@ -1,7 +1,7 @@
 let express = require("express");
 let path = require("path");
 let methodOverride = require("method-override");
-let todosController = require("./controllers/todos");
+let todosRoutes = require("./routes/todos");
 let mongoose = require("mongoose");
 
 mongoose.connect("mongodb://localhost:27017/todos_db");
@@ -26,6 +26,6 @@ app.use(
   })
 );
 
-app.use("/todos", todosController);
+app.use("/todos", todosRoutes);
 
 app.listen(3000);
