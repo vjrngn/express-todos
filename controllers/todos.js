@@ -25,21 +25,43 @@ module.exports = {
   update: function(req, res) {
     let id = req.params.id;
 
-    Todo.findById(id, function(err, todo) {
-      todo.set({ completed: req.body.completed === "on" });
-      todo.save(function(err, updatedTodo) {
+    // Todo.findById(id, function(err, todo) {
+    //   todo.update({ completed: req.body.completed === "on" }, function(err) {
+    //     res.redirect("/todos");
+    //   });
+    // });
+
+    Todo.updateOne(
+      { _id: id },
+      { completed: req.body.completed === "on" },
+      function(err) {
         res.redirect("/todos");
-      });
-    });
+      }
+    );
+
+    // Todo.findById(id, function(err, todo) {
+    //   todo.set({ completed: req.body.completed === "on" });
+    //   todo.save(function(err, updatedTodo) {
+    //     res.redirect("/todos");
+    //   });
+    // });
   },
 
   destroy: function(req, res) {
     let id = req.params.id;
 
-    Todo.findById(id, function(err, todo) {
-      todo.remove(function(err) {
-        res.redirect("/todos");
-      });
+    Todo.deleteOne({ _id: id }, function(err) {
+      if (err) {
+        res.send("Something went wrong");
+      }
+
+      res.redirect("/todos");
     });
+
+    // Todo.findById(id, function(err, todo) {
+    //   todo.remove(function(err) {
+    //     res.redirect("/todos");
+    //   });
+    // });
   },
 };
